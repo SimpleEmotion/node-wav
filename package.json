@@ -1,0 +1,24 @@
+{
+  "name": "node-wav",
+  "description": "node-wav",
+  "version": "0.1.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/SimpleEmotion/node-wav.git"
+  },
+  "author": "Akash Krishnan <ak@aakay.net>",
+  "bugs": {
+    "url": "https://github.com/SimpleEmotion/node-wav/issues"
+  },
+  "homepage": "https://github.com/SimpleEmotion/node-wav",
+  "private": true,
+  "scripts": {
+    "test": "mocha ."
+  },
+  "dependencies": {
+    "eslint": "2.3.0",
+    "eslint-config-google": "0.4.0",
+    "mocha": "2.4.5",
+    "stream-splitter": "0.3.2"
+  }
+}
