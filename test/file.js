@@ -1,6 +1,6 @@
 'use strict';
 
-var Wav = require( '../' );
+var Wav = require( '..' );
 var path = require( 'path' );
 
 describe( 'File', function () {
@@ -399,5 +399,22 @@ describe( 'File', function () {
 
   } );
 
-} )
-;
+  describe.skip( '#write()', function () {
+
+    describe( 'correct data', function () {
+
+      it( 'should write to file' );
+
+    } );
+
+    describe( 'incorrect data', function () {
+
+      it( 'should throw an error' );
+
+      it( 'should not write to file' );
+
+    } );
+
+  } );
+
+} );
