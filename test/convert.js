@@ -50,11 +50,31 @@ describe( 'Convert', function () {
 
       } );
 
-      it( 'should throw an error' );
+      it( 'should throw an error', function ( done ) {
+        Wav.convert.file( inputFilename, outputFilename, function ( err ) {
 
-      it( 'should not overwrite a file' );
+          if ( !err ) {
+            return done( 'Did not throw an error.' );
+          }
 
-      it( 'should not create a file' );
+          done();
+
+        } );
+      } );
+
+      it( 'should not create the output file', function ( done ) {
+        fs.exists( outputFilename, function ( exists ) {
+
+          if ( exists ) {
+            return done( new Error( 'Created output file.' ) );
+          }
+
+          done();
+
+        } );
+      } );
+
+      it( 'should not overwrite the output file' );
 
     } );
 
@@ -100,11 +120,31 @@ describe( 'Convert', function () {
 
       } );
 
-      it( 'should throw an error' );
+      it( 'should throw an error', function ( done ) {
+        Wav.convert.file( inputFilename, outputFilename, function ( err ) {
 
-      it( 'should not overwrite a file' );
+          if ( !err ) {
+            return done( 'Did not throw an error.' );
+          }
 
-      it( 'should not create a file' );
+          done();
+
+        } );
+      } );
+
+      it( 'should not create the output file', function ( done ) {
+        fs.exists( outputFilename, function ( exists ) {
+
+          if ( exists ) {
+            return done( new Error( 'Created output file.' ) );
+          }
+
+          done();
+
+        } );
+      } );
+
+      it( 'should not overwrite the output file' );
 
     } );
 
