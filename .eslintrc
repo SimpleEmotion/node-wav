@@ -6,9 +6,9 @@
     "mocha": true
   },
   "globals": {
-    "moment": true
   },
   "rules": {
+    "max-nested-callbacks": [2, 10],
     "no-inline-comments": 0,
     "new-cap": 0,
     "linebreak-style": 0,
