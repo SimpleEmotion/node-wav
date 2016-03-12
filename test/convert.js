@@ -940,7 +940,7 @@ describe( 'Convert', function () {
 
   describe.skip( '#dir()', function () {
 
-    //
+    it( 'should create correct number of output files' );
 
   } );
 
