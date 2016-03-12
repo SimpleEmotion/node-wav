@@ -7,9 +7,9 @@ describe( 'File', function () {
 
   describe( '#hash()', function () {
 
-    describe( 'nonexistent file', function () {
+    describe( 'file-does-not-exist.wav', function () {
 
-      var filename = path.resolve( __dirname, './audio/nonexistent-file.wav' );
+      var filename = path.resolve( path.join( __dirname, 'audio', 'file-does-not-exist.wav' ) );
 
       it( 'should throw an error', function ( done ) {
         Wav.file.hash( filename, function ( err ) {
@@ -27,9 +27,29 @@ describe( 'File', function () {
 
     } );
 
-    describe( 'invalid wav file', function () {
+    describe( 'file.js', function () {
 
-      var filename = path.resolve( __dirname, './file.js' );
+      var filename = path.resolve( path.join( __dirname, 'file.js' ) );
+
+      it( 'should throw an error', function ( done ) {
+        Wav.file.hash( filename, function ( err ) {
+
+          // Ensure error
+          if ( !err ) {
+            return done( new Error( 'Expected error.' ) );
+          }
+
+          // LGTM
+          done();
+
+        } );
+      } );
+
+    } );
+
+    describe( 'T2aaoxo63yfkykfmdr7yehuzqza.mp3', function () {
+
+      var filename = path.resolve( path.join( __dirname, 'audio', 'T2aaoxo63yfkykfmdr7yehuzqza.mp3' ) );
 
       it( 'should throw an error', function ( done ) {
         Wav.file.hash( filename, function ( err ) {
@@ -49,7 +69,7 @@ describe( 'File', function () {
 
     describe( 'T2a6uvl5c4m7ozqnt37wejkt32a.wav', function () {
 
-      var filename = path.resolve( __dirname, './audio/T2a6uvl5c4m7ozqnt37wejkt32a.wav' );
+      var filename = path.resolve( path.join( __dirname, 'audio', 'T2a6uvl5c4m7ozqnt37wejkt32a.wav' ) );
 
       it( 'should calculate correct hash', function ( done ) {
 
@@ -77,7 +97,7 @@ describe( 'File', function () {
 
     describe( 'T2aaoxo63yfkykfmdr7yehuzqza.wav', function () {
 
-      var filename = path.resolve( __dirname, './audio/T2aaoxo63yfkykfmdr7yehuzqza.wav' );
+      var filename = path.resolve( path.join( __dirname, 'audio', 'T2aaoxo63yfkykfmdr7yehuzqza.wav' ) );
 
       it( 'should calculate correct hash', function ( done ) {
 
@@ -107,9 +127,9 @@ describe( 'File', function () {
 
   describe( '#read()', function () {
 
-    describe( 'nonexistent file', function () {
+    describe( 'file-does-not-exist.wav', function () {
 
-      var filename = path.resolve( __dirname, './audio/nonexistent-file.wav' );
+      var filename = path.resolve( path.join( __dirname, 'audio', 'file-does-not-exist.wav' ) );
 
       it( 'should throw an error', function ( done ) {
         Wav.file.read( filename, {}, function ( err ) {
@@ -127,9 +147,29 @@ describe( 'File', function () {
 
     } );
 
-    describe( 'invalid wav file', function () {
+    describe( 'file.js', function () {
 
-      var filename = path.resolve( __dirname, './file.js' );
+      var filename = path.resolve( path.join( __dirname, 'file.js' ) );
+
+      it( 'should throw an error', function ( done ) {
+        Wav.file.read( filename, {}, function ( err ) {
+
+          // Ensure error
+          if ( !err ) {
+            return done( new Error( 'Expected error.' ) );
+          }
+
+          // LGTM
+          done();
+
+        } );
+      } );
+
+    } );
+
+    describe( 'T2aaoxo63yfkykfmdr7yehuzqza.mp3', function () {
+
+      var filename = path.resolve( path.join( __dirname, 'audio', 'T2aaoxo63yfkykfmdr7yehuzqza.mp3' ) );
 
       it( 'should throw an error', function ( done ) {
         Wav.file.read( filename, {}, function ( err ) {
@@ -149,7 +189,7 @@ describe( 'File', function () {
 
     describe( 'T2a6uvl5c4m7ozqnt37wejkt32a.wav', function () {
 
-      var filename = path.resolve( __dirname, './audio/T2a6uvl5c4m7ozqnt37wejkt32a.wav' );
+      var filename = path.resolve( path.join( __dirname, 'audio', 'T2a6uvl5c4m7ozqnt37wejkt32a.wav' ) );
 
       it( 'should not calculate hash or data', function ( done ) {
         Wav.file.read( filename, {}, function ( err, file ) {
@@ -274,7 +314,7 @@ describe( 'File', function () {
 
     describe( 'T2aaoxo63yfkykfmdr7yehuzqza.wav', function () {
 
-      var filename = path.resolve( __dirname, './audio/T2aaoxo63yfkykfmdr7yehuzqza.wav' );
+      var filename = path.resolve( path.join( __dirname, 'audio', 'T2aaoxo63yfkykfmdr7yehuzqza.wav' ) );
 
       it( 'should not calculate hash or data', function ( done ) {
         Wav.file.read( filename, {}, function ( err, file ) {
