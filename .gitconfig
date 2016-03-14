@@ -1,2 +1,2 @@
 [lfs]
-	url = git+ssh://git@github.com:SimpleEmotion/node-wav.git/info/lfs
+	url = git://git@github.com:SimpleEmotion/node-wav.git/info/lfs
