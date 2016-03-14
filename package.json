@@ -14,8 +14,9 @@
   "private": true,
   "main": "index.js",
   "scripts": {
-    "eslint": "eslint .",
-    "test": "mocha ./test"
+    "lint": "eslint .",
+    "lint-fix": "eslint . --fix",
+    "test": "mocha"
   },
   "dependencies": {
     "eslint": "2.3.0",
