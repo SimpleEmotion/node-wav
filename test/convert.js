@@ -735,10 +735,15 @@ describe( 'Convert', function () {
         it( 'should create a valid output wav file', function ( done ) {
 
           // A valid wav file is one that we can read without error
-          Wav.file.read( outputFilename, {}, function ( err ) {
+          Wav.file.read( outputFilename, {}, function ( err, wav_file ) {
 
             if ( err ) {
               return done( err );
+            }
+
+            // Must have only one channel
+            if ( wav_file.numChannels !== 2 ) {
+              return done( new Error( 'Does not exactly have two channels.' ) );
             }
 
             done();
@@ -750,6 +755,510 @@ describe( 'Convert', function () {
         it( 'should create a correct output wav file', function ( done ) {
 
           var expected = 'AA4026AA1A6A2D59AC01427F4A2D3B239CDD955BD309678C4EF1CC8490E968C1';
+
+          // A correct conversion occurs if we calculate the expected hash
+          Wav.file.hash( outputFilename, function ( err, hash ) {
+
+            if ( err ) {
+              return done( err );
+            }
+
+            // Ensure hash is correct
+            if ( hash !== expected ) {
+              return done( new Error( 'Converted incorrectly.' ) );
+            }
+
+            done();
+
+          } );
+
+        } );
+
+      } );
+
+      describe( 'options = { channels: [ 0, 1 ] }', function () {
+
+        before( 'ensure input file exists', function ( done ) {
+          fs.exists( inputFilename, function ( exists ) {
+
+            if ( !exists ) {
+              return done( new Error( 'Input file does not exist.' ) );
+            }
+
+            done();
+
+          } );
+        } );
+
+        before( 'ensure output file does not exist', function ( done ) {
+          fs.exists( outputFilename, function ( exists ) {
+
+            if ( !exists ) {
+              return done();
+            }
+
+            // Remove preexisting output file
+            fs.unlink( outputFilename, function ( err ) {
+
+              if ( err ) {
+                return done( err );
+              }
+
+              done();
+
+            } );
+
+          } );
+        } );
+
+        after( 'remove output file', function ( done ) {
+          fs.unlink( outputFilename, function ( err ) {
+
+            if ( err ) {
+              return done( err );
+            }
+
+            done();
+
+          } );
+        } );
+
+        it( 'should not throw an error', function ( done ) {
+          Wav.convert.file( inputFilename, outputFilename, { channels: [ 0, 1 ] }, function ( err ) {
+
+            if ( err ) {
+              return done( err );
+            }
+
+            done();
+
+          } );
+        } );
+
+        it( 'should create the output file', function ( done ) {
+          fs.exists( outputFilename, function ( exists ) {
+
+            if ( !exists ) {
+              return done( new Error( 'Did not create output file.' ) );
+            }
+
+            done();
+
+          } );
+        } );
+
+        it( 'should overwrite the output file', function ( done ) {
+
+          // Create empty file for reference
+          fs.open( outputFilename, 'w', function ( err, fd ) {
+
+            if ( err ) {
+              return done( err );
+            }
+
+            fs.close( fd, function ( err ) {
+
+              if ( err ) {
+                return done( err );
+              }
+
+              fs.stat( outputFilename, function ( err, stats ) {
+
+                if ( err ) {
+                  return done( err );
+                }
+
+                var emptySize = stats.size;
+
+                Wav.convert.file( inputFilename, outputFilename, { channels: [ 0, 1 ] }, function ( err ) {
+
+                  if ( err ) {
+                    return done( err );
+                  }
+
+                  fs.stat( outputFilename, function ( err, stats ) {
+
+                    if ( err ) {
+                      return done( err );
+                    }
+
+                    if ( stats.size === emptySize ) {
+                      return done( new Error( 'Did not overwrite output file.' ) );
+                    }
+
+                    done();
+
+                  } );
+
+                } );
+
+              } );
+
+            } );
+
+          } );
+
+        } );
+
+        it( 'should create a valid output wav file', function ( done ) {
+
+          // A valid wav file is one that we can read without error
+          Wav.file.read( outputFilename, {}, function ( err, wav_file ) {
+
+            if ( err ) {
+              return done( err );
+            }
+
+            // Must have only one channel
+            if ( wav_file.numChannels !== 2 ) {
+              return done( new Error( 'Does not exactly have two channels.' ) );
+            }
+
+            done();
+
+          } );
+
+        } );
+
+        it( 'should create a correct output wav file', function ( done ) {
+
+          var expected = 'AA4026AA1A6A2D59AC01427F4A2D3B239CDD955BD309678C4EF1CC8490E968C1';
+
+          // A correct conversion occurs if we calculate the expected hash
+          Wav.file.hash( outputFilename, function ( err, hash ) {
+
+            if ( err ) {
+              return done( err );
+            }
+
+            // Ensure hash is correct
+            if ( hash !== expected ) {
+              return done( new Error( 'Converted incorrectly.' ) );
+            }
+
+            done();
+
+          } );
+
+        } );
+
+      } );
+
+      describe( 'options = { channels: [ 0 ] }', function () {
+
+        before( 'ensure input file exists', function ( done ) {
+          fs.exists( inputFilename, function ( exists ) {
+
+            if ( !exists ) {
+              return done( new Error( 'Input file does not exist.' ) );
+            }
+
+            done();
+
+          } );
+        } );
+
+        before( 'ensure output file does not exist', function ( done ) {
+          fs.exists( outputFilename, function ( exists ) {
+
+            if ( !exists ) {
+              return done();
+            }
+
+            // Remove preexisting output file
+            fs.unlink( outputFilename, function ( err ) {
+
+              if ( err ) {
+                return done( err );
+              }
+
+              done();
+
+            } );
+
+          } );
+        } );
+
+        after( 'remove output file', function ( done ) {
+          fs.unlink( outputFilename, function ( err ) {
+
+            if ( err ) {
+              return done( err );
+            }
+
+            done();
+
+          } );
+        } );
+
+        it( 'should not throw an error', function ( done ) {
+          Wav.convert.file( inputFilename, outputFilename, { channels: [ 0 ] }, function ( err ) {
+
+            if ( err ) {
+              return done( err );
+            }
+
+            done();
+
+          } );
+        } );
+
+        it( 'should create the output file', function ( done ) {
+          fs.exists( outputFilename, function ( exists ) {
+
+            if ( !exists ) {
+              return done( new Error( 'Did not create output file.' ) );
+            }
+
+            done();
+
+          } );
+        } );
+
+        it( 'should overwrite the output file', function ( done ) {
+
+          // Create empty file for reference
+          fs.open( outputFilename, 'w', function ( err, fd ) {
+
+            if ( err ) {
+              return done( err );
+            }
+
+            fs.close( fd, function ( err ) {
+
+              if ( err ) {
+                return done( err );
+              }
+
+              fs.stat( outputFilename, function ( err, stats ) {
+
+                if ( err ) {
+                  return done( err );
+                }
+
+                var emptySize = stats.size;
+
+                Wav.convert.file( inputFilename, outputFilename, { channels: [ 0 ] }, function ( err ) {
+
+                  if ( err ) {
+                    return done( err );
+                  }
+
+                  fs.stat( outputFilename, function ( err, stats ) {
+
+                    if ( err ) {
+                      return done( err );
+                    }
+
+                    if ( stats.size === emptySize ) {
+                      return done( new Error( 'Did not overwrite output file.' ) );
+                    }
+
+                    done();
+
+                  } );
+
+                } );
+
+              } );
+
+            } );
+
+          } );
+
+        } );
+
+        it( 'should create a valid output wav file', function ( done ) {
+
+          // A valid wav file is one that we can read without error
+          Wav.file.read( outputFilename, {}, function ( err, wav_file ) {
+
+            if ( err ) {
+              return done( err );
+            }
+
+            // Must have only one channel
+            if ( wav_file.numChannels !== 1 ) {
+              return done( new Error( 'Does not exactly have one channel.' ) );
+            }
+
+            done();
+
+          } );
+
+        } );
+
+        it( 'should create a correct output wav file', function ( done ) {
+
+          var expected = '8ABFCB1897577AE4AF1D81B65894924ACDA1E7C520438BFAEC85AA7E6FB21794';
+
+          // A correct conversion occurs if we calculate the expected hash
+          Wav.file.hash( outputFilename, function ( err, hash ) {
+
+            if ( err ) {
+              return done( err );
+            }
+
+            // Ensure hash is correct
+            if ( hash !== expected ) {
+              return done( new Error( 'Converted incorrectly.' ) );
+            }
+
+            done();
+
+          } );
+
+        } );
+
+      } );
+
+      describe( 'options = { channels: [ 1 ] }', function () {
+
+        before( 'ensure input file exists', function ( done ) {
+          fs.exists( inputFilename, function ( exists ) {
+
+            if ( !exists ) {
+              return done( new Error( 'Input file does not exist.' ) );
+            }
+
+            done();
+
+          } );
+        } );
+
+        before( 'ensure output file does not exist', function ( done ) {
+          fs.exists( outputFilename, function ( exists ) {
+
+            if ( !exists ) {
+              return done();
+            }
+
+            // Remove preexisting output file
+            fs.unlink( outputFilename, function ( err ) {
+
+              if ( err ) {
+                return done( err );
+              }
+
+              done();
+
+            } );
+
+          } );
+        } );
+
+        after( 'remove output file', function ( done ) {
+          fs.unlink( outputFilename, function ( err ) {
+
+            if ( err ) {
+              return done( err );
+            }
+
+            done();
+
+          } );
+        } );
+
+        it( 'should not throw an error', function ( done ) {
+          Wav.convert.file( inputFilename, outputFilename, { channels: [ 1 ] }, function ( err ) {
+
+            if ( err ) {
+              return done( err );
+            }
+
+            done();
+
+          } );
+        } );
+
+        it( 'should create the output file', function ( done ) {
+          fs.exists( outputFilename, function ( exists ) {
+
+            if ( !exists ) {
+              return done( new Error( 'Did not create output file.' ) );
+            }
+
+            done();
+
+          } );
+        } );
+
+        it( 'should overwrite the output file', function ( done ) {
+
+          // Create empty file for reference
+          fs.open( outputFilename, 'w', function ( err, fd ) {
+
+            if ( err ) {
+              return done( err );
+            }
+
+            fs.close( fd, function ( err ) {
+
+              if ( err ) {
+                return done( err );
+              }
+
+              fs.stat( outputFilename, function ( err, stats ) {
+
+                if ( err ) {
+                  return done( err );
+                }
+
+                var emptySize = stats.size;
+
+                Wav.convert.file( inputFilename, outputFilename, { channels: [ 1 ] }, function ( err ) {
+
+                  if ( err ) {
+                    return done( err );
+                  }
+
+                  fs.stat( outputFilename, function ( err, stats ) {
+
+                    if ( err ) {
+                      return done( err );
+                    }
+
+                    if ( stats.size === emptySize ) {
+                      return done( new Error( 'Did not overwrite output file.' ) );
+                    }
+
+                    done();
+
+                  } );
+
+                } );
+
+              } );
+
+            } );
+
+          } );
+
+        } );
+
+        it( 'should create a valid output wav file', function ( done ) {
+
+          // A valid wav file is one that we can read without error
+          Wav.file.read( outputFilename, {}, function ( err, wav_file ) {
+
+            if ( err ) {
+              return done( err );
+            }
+
+            // Must have only one channel
+            if ( wav_file.numChannels !== 1 ) {
+              return done( new Error( 'Does not exactly have one channel.' ) );
+            }
+
+            done();
+
+          } );
+
+        } );
+
+        it( 'should create a correct output wav file', function ( done ) {
+
+          var expected = '6B0037639952CCCCDFB5E7993AF30275F5DA934FD4F54A22E56961721473D9A5';
 
           // A correct conversion occurs if we calculate the expected hash
           Wav.file.hash( outputFilename, function ( err, hash ) {
@@ -866,6 +1375,169 @@ describe( 'Convert', function () {
                 var emptySize = stats.size;
 
                 Wav.convert.file( inputFilename, outputFilename, { mix: true }, function ( err ) {
+
+                  if ( err ) {
+                    return done( err );
+                  }
+
+                  fs.stat( outputFilename, function ( err, stats ) {
+
+                    if ( err ) {
+                      return done( err );
+                    }
+
+                    if ( stats.size === emptySize ) {
+                      return done( new Error( 'Did not overwrite output file.' ) );
+                    }
+
+                    done();
+
+                  } );
+
+                } );
+
+              } );
+
+            } );
+
+          } );
+
+        } );
+
+        it( 'should create a valid output wav file', function ( done ) {
+
+          // A valid wav file is one that we can read without error
+          Wav.file.read( outputFilename, {}, function ( err ) {
+
+            if ( err ) {
+              return done( err );
+            }
+
+            done();
+
+          } );
+
+        } );
+
+        it( 'should create a correct output wav file', function ( done ) {
+
+          var expected = '118DA6568EE44D31A7335185563866A447C6B3CC76FFAB181CC00E4EF4BD5AC0';
+
+          // A correct conversion occurs if we calculate the expected hash
+          Wav.file.hash( outputFilename, function ( err, hash ) {
+
+            if ( err ) {
+              return done( err );
+            }
+
+            // Ensure hash is correct
+            if ( hash !== expected ) {
+              return done( new Error( 'Converted incorrectly.' ) );
+            }
+
+            done();
+
+          } );
+
+        } );
+
+      } );
+
+      describe( 'options = { channels: [ 0, 1 ], mix: true }', function () {
+
+        before( 'ensure input file exists', function ( done ) {
+          fs.exists( inputFilename, function ( exists ) {
+
+            if ( !exists ) {
+              return done( new Error( 'Input file does not exist.' ) );
+            }
+
+            done();
+
+          } );
+        } );
+
+        before( 'ensure output file does not exist', function ( done ) {
+          fs.exists( outputFilename, function ( exists ) {
+
+            if ( !exists ) {
+              return done();
+            }
+
+            // Remove preexisting output file
+            fs.unlink( outputFilename, function ( err ) {
+
+              if ( err ) {
+                return done( err );
+              }
+
+              done();
+
+            } );
+
+          } );
+        } );
+
+        after( 'remove output file', function ( done ) {
+          fs.unlink( outputFilename, function ( err ) {
+
+            if ( err ) {
+              return done( err );
+            }
+
+            done();
+
+          } );
+        } );
+
+        it( 'should not throw an error', function ( done ) {
+          Wav.convert.file( inputFilename, outputFilename, { channels: [ 0, 1 ], mix: true }, function ( err ) {
+
+            if ( err ) {
+              return done( err );
+            }
+
+            done();
+
+          } );
+        } );
+
+        it( 'should create the output file', function ( done ) {
+          fs.exists( outputFilename, function ( exists ) {
+
+            if ( !exists ) {
+              return done( new Error( 'Did not create output file.' ) );
+            }
+
+            done();
+
+          } );
+        } );
+
+        it( 'should overwrite the output file', function ( done ) {
+
+          // Create empty file for reference
+          fs.open( outputFilename, 'w', function ( err, fd ) {
+
+            if ( err ) {
+              return done( err );
+            }
+
+            fs.close( fd, function ( err ) {
+
+              if ( err ) {
+                return done( err );
+              }
+
+              fs.stat( outputFilename, function ( err, stats ) {
+
+                if ( err ) {
+                  return done( err );
+                }
+
+                var emptySize = stats.size;
+
+                Wav.convert.file( inputFilename, outputFilename, { channels: [ 0, 1 ], mix: true }, function ( err ) {
 
                   if ( err ) {
                     return done( err );
