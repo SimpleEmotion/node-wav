@@ -1,6 +1,8 @@
 'use strict';
 
+var Util = require( '../lib/util' );
 var Wav = require( '..' );
+var fs = require( 'fs' );
 var path = require( 'path' );
 
 describe( 'File', function () {
@@ -452,6 +454,113 @@ describe( 'File', function () {
       it( 'should throw an error' );
 
       it( 'should not write to file' );
+
+    } );
+
+  } );
+
+  describe.skip( '#copy()', function () {
+
+  } );
+
+  describe( '#normalize()', function () {
+
+    describe( 'T2aaoxo63yfkykfmdr7yehuzqza.wav', function () {
+
+      var original = path.resolve( path.join( __dirname, 'audio', 'T2aaoxo63yfkykfmdr7yehuzqza.wav' ) );
+      var filename = original + '.copy';
+
+      before( 'Create copy of original wav file.', function ( done ) {
+        Wav.file.copy( original, filename, function ( err ) {
+
+          if ( err ) {
+            return done( err );
+          }
+
+          done();
+
+        } );
+      } );
+
+      after( 'Delete copy of wav file.', function ( done ) {
+        fs.unlink( filename, function ( err ) {
+
+          if ( err ) {
+            return done( err );
+          }
+
+          done();
+
+        } );
+      } );
+
+      it( 'should not throw an error for single-channel wav file', function ( done ) {
+
+        Wav.file.normalize( filename, function ( err ) {
+
+          if ( err ) {
+            return done( err );
+          }
+
+          done();
+
+        } );
+
+      } );
+
+      it( 'should be a valid wav file', function ( done ) {
+
+        Wav.file.read( filename, {}, function ( err ) {
+
+          if ( err ) {
+            return done( err );
+          }
+
+          done();
+
+        } );
+
+      } );
+
+      it( 'should be normalized', function ( done ) {
+
+        Wav.file.read( filename, { data: true }, function ( err, file ) {
+
+          if ( err ) {
+            return done( err );
+          }
+
+          var absMax = Util.max( Util.abs( file.data[ 0 ] ) );
+
+          if ( absMax !== 1 ) {
+            return done( new Error( 'Normalization failed.' ) );
+          }
+
+          done();
+
+        } );
+
+      } );
+
+      it( 'should be correct wav file', function ( done ) {
+
+        var expected = '118DA6568EE44D31A7335185563866A447C6B3CC76FFAB181CC00E4EF4BD5AC0';
+
+        Wav.file.read( filename, { hash: true }, function ( err, file ) {
+
+          if ( err ) {
+            return done( err );
+          }
+
+          if ( file.hash !== expected ) {
+            return done( new Error( 'Normalization failed.' ) );
+          }
+
+          done();
+
+        } );
+
+      } );
 
     } );
 
