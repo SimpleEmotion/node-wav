@@ -19,9 +19,9 @@
     "test": "mocha"
   },
   "dependencies": {
-    "eslint": "2.3.0",
-    "eslint-config-google": "0.4.0",
-    "mocha": "2.4.5",
+    "eslint": "2.10.2",
+    "eslint-config-google": "0.5.0",
+    "mocha": "2.5.2",
     "stream-splitter": "0.3.2"
   }
 }
