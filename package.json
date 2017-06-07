@@ -1,7 +1,7 @@
 {
-  "name": "node-wav",
+  "name": "@simple-emotion/wav",
   "description": "node-wav",
-  "version": "0.3.1",
+  "version": "1.0.0",
   "repository": {
     "type": "git",
     "url": "https://github.com/SimpleEmotion/node-wav.git"
@@ -11,7 +11,6 @@
     "url": "https://github.com/SimpleEmotion/node-wav/issues"
   },
   "homepage": "https://github.com/SimpleEmotion/node-wav",
-  "private": true,
   "main": "index.js",
   "scripts": {
     "lint": "eslint .",
@@ -19,11 +18,11 @@
     "test": "mocha"
   },
   "dependencies": {
-    "stream-splitter": "0.3.2"
+    "stream-splitter": "^0.3.2"
   },
   "devDependencies": {
+    "@simple-emotion/eslint-config": "^0.3.3",
     "eslint": "^2.10.2",
-    "eslint-config-simpleemotion": "git+ssh://git@github.com:SimpleEmotion/eslint-config-simpleemotion#v0.2.1",
     "mocha": "^2.5.2"
   }
 }
